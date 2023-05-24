@@ -1,60 +1,44 @@
 
 <script setup>
+import { ref } from 'vue';
+import axios from 'axios';
+import InputText from 'primevue/inputtext';
+import InputForm from '@/components/formComponents/input.vue'
+import ButtonForm from '@/components/formComponents/button.vue'
 
-  import InputText from 'primevue/inputtext';
-  import Button from 'primevue/button';
+const form = ref({
+  username: '',
+  email: '',
+  password: '',
+  roles: ['admin']
+});
 
-  import 'bootstrap'
-
-  import { ref } from 'vue';
-
-  let form = {
-    username : '',
-    email : '',
-    password : '',
-    roles : ['admin']
-  }
-
-  function submit(event) {
-    console.log(form)
-
-    fetch('...')
-  .then((res) => res.json())
-  .then((json) => (data.value = json))
-  .catch((err) => (error.value = err))
-
-
-    fetch('http://localhost:3000/api/signup', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({...form})
-        })
-        .then((res) => res.json())
-        .then((json) => ( console.log(json)))
-
-
-  }
-
+function submit(event) {
+  axios.post('http://localhost:3000/api/signup', form.value, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
 </script>
       
 
 <template>
   <div class="d-flex w-100px flex-column">
-    <label>Usuario</label>
-    <InputText type="text" v-model="form.username" />
+    <InputForm label="Usuario" placeholder="Usuario" :value="form.username" @input-value="form.username = $event" />
 
-    <label>Email</label>
-    <InputText type="text" v-model="form.email" />
+    <InputForm label="Email" placeholder="Email" :value="form.email" @input-value="form.email = $event" />
 
-    <label>Password</label>
-    <InputText type="text" v-model="form.password" />
+    <InputForm label="Password" placeholder="Password" :value="form.password" @input-value="form.password = $event" />
 
-    <div class="card flex justify-content-center m-2">
-        <Button  @click="submit" label="Submit" />
-    </div>
+    <ButtonForm label="Submit" :onClick="submit" />
   </div>
 </template>
 

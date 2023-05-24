@@ -1,65 +1,97 @@
 <script>
 import InputTextForm from 'primevue/inputtext';
-import InputPasswordForm from 'primevue/password';
+import DropdownForm from 'primevue/dropdown';
 import InputMask from 'primevue/inputmask'
+import {isStrongPassword, isEmail} from 'validator';
+
 import 'bootstrap';
 
 export default {
   props: {
     label: String,
     placeholder: String,
-    value: String
+    value:  [String, Number]
+  },
+  data() {
+    return {
+      error: '',
+      isValidEmail: true,
+      isValidPassword: true,
+      isValidField: true,
+    };
   },
   components: {
     InputTextForm,
-    InputPasswordForm,
+    DropdownForm,
     InputMask
   },
   methods: {
     updateValue(event) {
       this.$emit('input-value', event.target.value);
+      this.error = '';
     },
+    validate() {
+      if (this.value.length <= 1) {
+        this.error = 'Este campo es requerido';
+        this.isValidField = false;
+
+      } else if (this.value.length > 20) {
+        this.error = 'El campo no puede tener más de 20 caracteres';
+        this.isValidField = false;
+
+      } else {
+        this.error = '';
+        this.isValidField = true;
+      }
+    },
+    validateEmail() {
+      this.isValidEmail = isEmail(this.value);
+    },
+    validatePassword() {
+      this.isValidPassword = isStrongPassword(this.value);
+    }
   }
 };
 </script>
 
 <template>
   <div>
-    <div v-if="label === 'Password'" class="group">
+    <div v-if="label === 'Password' || label === 'Repeat Password'" class="group">
       <label>{{ label }}</label>
-      <InputPasswordForm :value="value" @input="updateValue">
-        <template #header>
-            <h6>Pick a password</h6>
-        </template>
-        <template #footer>
-            <Divider />
-            <p class="mt-2">Suggestions</p>
-            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                <li>At least one lowercase</li>
-                <li>At least one uppercase</li>
-                <li>At least one numeric</li>
-                <li>Minimum 8 characters</li>
-            </ul>
-        </template>
-    </InputPasswordForm>
+      <InputTextForm type="password" :value="value" :placeholder="placeholder" @input="updateValue" @blur="validatePassword" />
+      <p v-if="label === 'Password' && !isValidPassword" class="error-message">La contraseña debe tener al menos 8 caracteres, 1 carácter especial y 1 número.</p>
     </div>
 
     <div v-else-if="label === 'Celular'" class="group">
       <label>{{ label }}</label>
-      <InputMask mask="(99) 999-9999" :placeholder="placeholder" v-bind="value" @input="updateValue" />
+      <InputMask mask="(99) 999-999" :placeholder="placeholder" :value="value" @input="updateValue" @blur="validate" />
     </div>
 
     <div v-else-if="label === 'Numero de documento'" class="group">
       <label>{{ label }}</label>
-      <InputMask mask="9-999-999-9" :placeholder="placeholder" v-bind="value" @input="updateValue" />
+      <InputMask mask="9-999-999-9" :placeholder="placeholder" :value="value" @input="updateValue" @blur="validate" />
     </div>
     
-    <div v-else  class="group">
+    <div v-else-if="label === 'Tipo de documento'" class="group">
       <label>{{ label }}</label>
-      <InputTextForm :placeholder="placeholder" v-bind="value" @input="updateValue" />
+      <DropdownForm options="C" :placeholder="placeholder" :value="value" @input="validateEmail" @blur="validate" />
     </div>
+    
+    <div v-else-if="label === 'Email'" class="group">
+      <label>{{ label }}</label>
+      <InputTextForm :placeholder="placeholder" :value="value" @input="updateValue" @blur="validateEmail" />
+      <p v-if="!isValidEmail" class="error-message">Por favor, ingresa un correo electrónico válido.</p>
+    </div>
+    
+    <div v-else class="group">
+      <label>{{ label }}</label>
+      <InputTextForm :placeholder="placeholder" :value="value" @input="updateValue" @blur="validate" />
+    </div>
+    
+    <p class="error-message">{{ error }}</p>
   </div>
 </template>
+
 
 <style>
 .group {
@@ -67,7 +99,11 @@ export default {
   flex-direction: column;
   margin: 10px 0;
 }
-.p-hidden-accessible{
-  display: none
+.p-hidden-accessible {
+  display: none;
+}
+.error-message {
+  color: red;
+  margin-top: 5px;
 }
 </style>

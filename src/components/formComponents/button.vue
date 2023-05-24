@@ -13,5 +13,5 @@ export default {
 </script>
 
 <template>
-    <ButtonForm @click="onClick" :label="label"/>
+  <ButtonForm @click="$emit('click')" :label="label" />
 </template>

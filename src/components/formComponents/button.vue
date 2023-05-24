@@ -1,5 +1,5 @@
 <script>
-import Button from 'primevue/button';
+import ButtonForm from 'primevue/button';
 import 'bootstrap';
 
 export default {
@@ -7,11 +7,11 @@ export default {
     label: String,
   },
   components: {
-    Button
+    ButtonForm
   }
 }
 </script>
 
 <template>
-    <Button @click="onClick" :label="label"/>
+    <ButtonForm @click="onClick" :label="label"/>
 </template>

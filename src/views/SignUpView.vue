@@ -14,6 +14,7 @@ const form = ref({
 });
 
 function submit(event) {
+  console.log(form.value)
   axios.post('http://localhost:3000/api/signup', form.value, {
     headers: {
       'Accept': 'application/json',
@@ -32,11 +33,11 @@ function submit(event) {
 
 <template>
   <div class="d-flex w-100px flex-column">
-    <InputForm label="Usuario" placeholder="Usuario" :value="form.username" @input-value="form.username = $event" />
+    <InputForm label="Usuario" placeholder="Usuario" v-model="form.username" @input-value="form.username = $event" />
 
-    <InputForm label="Email" placeholder="Email" :value="form.email" @input-value="form.email = $event" />
+    <InputForm label="Email" placeholder="Email" v-model="form.email" @input-value="form.email = $event" />
 
-    <InputForm label="Password" placeholder="Password" :value="form.password" @input-value="form.password = $event" />
+    <InputForm label="Password" placeholder="Password" v-model="form.password" @input-value="form.password = $event" />
 
     <ButtonForm label="Submit" :onClick="submit" />
   </div>

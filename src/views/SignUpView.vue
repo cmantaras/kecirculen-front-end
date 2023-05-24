@@ -14,7 +14,6 @@ const form = ref({
 });
 
 function submit(event) {
-  console.log(form.value)
   axios.post('http://localhost:3000/api/signup', form.value, {
     headers: {
       'Accept': 'application/json',

@@ -46,17 +46,17 @@ export default {
 
     <div v-else-if="label === 'Celular'" class="group">
       <label>{{ label }}</label>
-      <InputMask mask="(99) 999-9999" :placeholder="placeholder" :value="value" @input="updateValue" />
+      <InputMask mask="(99) 999-9999" :placeholder="placeholder" v-bind="value" @input="updateValue" />
     </div>
 
     <div v-else-if="label === 'Numero de documento'" class="group">
       <label>{{ label }}</label>
-      <InputMask mask="9-999-999-9" :placeholder="placeholder" :value="value" @input="updateValue" />
+      <InputMask mask="9-999-999-9" :placeholder="placeholder" v-bind="value" @input="updateValue" />
     </div>
     
     <div v-else  class="group">
       <label>{{ label }}</label>
-      <InputTextForm :placeholder="placeholder" :value="value" @input="updateValue" />
+      <InputTextForm :placeholder="placeholder" v-bind="value" @input="updateValue" />
     </div>
   </div>
 </template>

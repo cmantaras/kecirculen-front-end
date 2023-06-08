@@ -17,6 +17,7 @@ export default {
       error: '',
       isValidEmail: true,
       isValidPassword: true,
+      isValidRepeatedPassword: true,
       isValidField: true,
     };
   },
@@ -49,6 +50,17 @@ export default {
     },
     validatePassword() {
       this.isValidPassword = isStrongPassword(this.value);
+      this.password = this.value;
+      console.log(this.password)
+    },
+    validateRepeatPassword() {
+      this.repeatPassword = this.value;
+      console.log(this.repeatPassword)
+      if(this.repeatPassword === this.password){
+        this.isValidRepeatedPassword = true;
+      }else{
+        this.isValidRepeatedPassword = false;
+      }
     }
   }
 };
@@ -56,10 +68,16 @@ export default {
 
 <template>
   <div>
-    <div v-if="label === 'Password' || label === 'Repeat Password'" class="group">
+    <div v-if="label === 'Password'" class="group">
       <label>{{ label }}</label>
       <InputTextForm type="password" :value="value" :placeholder="placeholder" @input="updateValue" @blur="validatePassword" />
       <p v-if="label === 'Password' && !isValidPassword" class="error-message">La contraseña debe tener al menos 8 caracteres, 1 carácter especial y 1 número.</p>
+    </div>
+    
+    <div v-else-if="label === 'Repeat Password'" class="group">
+      <label>{{ label }}</label>
+      <InputTextForm type="password" :value="value" :placeholder="placeholder" @input="updateValue" @blur="validateRepeatPassword" />
+      <p v-if="label === 'Repeat Password' && !isValidRepeatedPassword" class="error-message">Las contraseñas no coinciden</p>
     </div>
 
     <div v-else-if="label === 'Celular'" class="group">

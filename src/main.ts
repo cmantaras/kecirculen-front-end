@@ -1,4 +1,4 @@
-import './assets/main.css'
+import './assets/normalize.css'
 import "primevue/resources/themes/lara-light-indigo/theme.css";     
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'

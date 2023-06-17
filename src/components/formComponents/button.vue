@@ -4,7 +4,7 @@ import 'bootstrap';
 
 export default {
   props: {
-    label: String,
+    label: String
   },
   components: {
     ButtonForm

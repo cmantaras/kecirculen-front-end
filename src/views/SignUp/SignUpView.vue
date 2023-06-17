@@ -68,9 +68,6 @@ export default {
 
       return !emptyFields && !invalidFields;
     },
-    isDifferentPass() {
-      return this.form.password !== this.form.repeatPassword;
-    }
   }
 }
 </script>

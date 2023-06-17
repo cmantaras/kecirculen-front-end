@@ -111,14 +111,14 @@ export default {
         placeholder="Repeat Password"
         :valid-repeated-password="valid.email"
         :value="form.repeatPassword"
-        @input-value="form.repeatPassword = $event"
         :repeat-value="form.password"
+        @input-value="form.repeatPassword = $event"
         @validRepeatPassword="valid.repeatPassword = $event"
       />
 
       <ButtonForm v-if="validateSubmit" label="Continuar" :onClick="submit" />
 
-      <ButtonForm v-else aria-disabled="" label="Continuar" disabled />
+      <ButtonForm v-else label="Continuar" />
 
       <div v-if="this.hideAlert === 'show'">
         <Message v-if="this.createdSuccessfully" :closable="false" severity="success">

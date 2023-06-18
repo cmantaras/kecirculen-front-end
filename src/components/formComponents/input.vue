@@ -16,20 +16,7 @@ export default {
     label: String,
     placeholder: String,
     value: [String, Number],
-    repeatValue: [String, Number],
-    validUsername: Boolean,
-    validEmail: Boolean,
-    validPassword: Boolean,
-    validRepeatPassword: Boolean
-  },
-  data() {
-    return {
-      error: '',
-      isValidEmail: true,
-      isValidPassword: true,
-      isValidRepeatedPassword: true,
-      isValidField: true
-    }
+    repeatValue: [String, Number]
   },
   components: {
     InputTextForm,
@@ -38,39 +25,20 @@ export default {
     InputMask
   },
   methods: {
-    updateValue(event) {
-      this.$emit('input-value', event.target.value)
-      this.error = ''
+    handleInput(event) {
+      this.$emit('inputValue', event.target.value)
     },
-    validate() {
-      if (this.value.length <= 1) {
-        this.$emit('validUsername', false)
-        this.error = 'Este campo es requerido'
-        this.isValidField = false
-      } else if (this.value.length > 20) {
-        this.$emit('validUsername', false)
-        this.error = 'El campo no puede tener más de 20 caracteres'
-        this.isValidField = false
-      } else {
-        this.$emit('validUsername', true)
-        this.error = ''
-        this.isValidField = true
-      }
+    validateUsername(event) {
+      this.$emit('handleUsername', event.target.value)
     },
-    validateEmail() {
-      this.$emit('input-value', this.value)
-      this.$emit('validEmail', isEmail(this.value))
-      this.isValidEmail = isEmail(this.value)
+    handleEmail(event) {
+      this.$emit('handleEmail', event.target.value)
     },
-    validatePassword() {
-      this.$emit('input-value', event.target.value)
-      this.$emit('validPassword', isStrongPassword(this.value))
-      this.isValidPassword = isStrongPassword(this.value)
+    handlePassword(event) {
+      this.$emit('handlePassword', event.target.value)
     },
-    validateRepeatPassword() {
-      this.$emit('input-value', event.target.value)
-      this.$emit('validRepeatPassword', this.repeatValue === this.value)
-      this.isValidRepeatedPassword = this.repeatValue === this.value
+    handleRepeatPassword(event) {
+      this.$emit('handleRepeatPassword', event.target.value)
     }
   }
 }
@@ -84,13 +52,8 @@ export default {
         type="password"
         :value="value"
         :placeholder="placeholder"
-        @input="updateValue"
-        @blur="validatePassword"
-      />
-      <Text
-        v-if="label === 'Password' && !isValidPassword"
-        class="error-message"
-        :text="'La contraseña debe tener al menos 8 caracteres, 1 carácter especial y 1 número.'"
+        @input="handleInput"
+        @blur="handlePassword"
       />
     </div>
 
@@ -100,47 +63,24 @@ export default {
         type="password"
         :value="value"
         :placeholder="placeholder"
-        @input="updateValue"
-        @blur="validateRepeatPassword"
-      />
-      <Text
-        v-if="label === 'Repeat Password' && !isValidRepeatedPassword"
-        class="error-message"
-        :text="'Las contraseñas no coinciden'"
+        @input="handleInput"
+        @blur="handleRepeatPassword"
       />
     </div>
 
     <div v-else-if="label === 'Celular'" class="group">
       <label>{{ label }}</label>
-      <InputMask
-        mask="(99) 999-999"
-        :placeholder="placeholder"
-        :value="value"
-        @input="updateValue"
-        @blur="validate"
-      />
+      <InputMask mask="(99) 999-999" :placeholder="placeholder" :value="value" />
     </div>
 
     <div v-else-if="label === 'Numero de documento'" class="group">
       <label>{{ label }}</label>
-      <InputMask
-        mask="9-999-999-9"
-        :placeholder="placeholder"
-        :value="value"
-        @input="updateValue"
-        @blur="validate"
-      />
+      <InputMask mask="9-999-999-9" :placeholder="placeholder" :value="value" />
     </div>
 
     <div v-else-if="label === 'Tipo de documento'" class="group">
       <label>{{ label }}</label>
-      <DropdownForm
-        options="C"
-        :placeholder="placeholder"
-        :value="value"
-        @input="validateEmail"
-        @blur="validate"
-      />
+      <DropdownForm options="C" :placeholder="placeholder" :value="value" />
     </div>
 
     <div v-else-if="label === 'Email'" class="group">
@@ -148,14 +88,8 @@ export default {
       <InputTextForm
         :placeholder="placeholder"
         :value="value"
-        @input="updateValue"
-        @blur="validateEmail"
-        @click="$emit('click')"
-      />
-      <Text
-        v-if="!isValidEmail"
-        class="error-message"
-        :text="'Por favor, ingresa un correo electrónico válido.'"
+        @blur="handleEmail"
+        @input="handleInput"
       />
     </div>
 
@@ -164,12 +98,10 @@ export default {
       <InputTextForm
         :placeholder="placeholder"
         :value="value"
-        @input="updateValue"
-        @blur="validate"
+        @blur="validateUsername"
+        @input="handleInput"
       />
     </div>
-
-    <Text class="error-message" :text="error" />
   </div>
 </template>
 

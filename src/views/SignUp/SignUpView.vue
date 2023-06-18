@@ -1,20 +1,23 @@
 <script>
 // Styles
-import InputText from 'primevue/inputtext';
-import Message from 'primevue/message';
+import InputText from 'primevue/inputtext'
+import Message from 'primevue/message'
 
 // Components
-import InputForm from '@/components/formComponents/input.vue';
-import ButtonForm from '@/components/formComponents/button.vue';
-import Title from '@/components/Texts/title.vue';
+import InputForm from '@/components/formComponents/input.vue'
+import ButtonForm from '@/components/formComponents/button.vue'
+import Title from '@/components/Texts/title.vue'
+import Text from '@/components/Texts/text.vue'
 
-// import KecirculenLogo from './images/KECIRCULENLogo.svg'
+import { isStrongPassword, isEmail } from 'validator'
 
 import axios from 'axios'
+import 'bootstrap'
 
 export default {
   data() {
     return {
+      error: '',
       createdSuccessfully: false,
       hideAlert: 'hide',
       form: {
@@ -25,10 +28,10 @@ export default {
         roles: ['admin']
       },
       valid: {
-        username: false,
-        email: false,
-        password: false,
-        repeatPassword: false
+        username: true,
+        email: true,
+        password: true,
+        repeatPassword: true
       }
     }
   },
@@ -36,7 +39,8 @@ export default {
     InputForm,
     Title,
     ButtonForm,
-    Message
+    Message,
+    Text
   },
   methods: {
     async submit() {
@@ -47,81 +51,122 @@ export default {
             'Content-Type': 'application/json'
           }
         })
-        this.createdSuccessfully = true;
-        this.hideAlert = 'show';
+        this.createdSuccessfully = true
+        this.hideAlert = 'show'
       } catch (error) {
-        this.hideAlert = 'show';
-        this.createdSuccessfully = false;
+        this.hideAlert = 'show'
+        this.createdSuccessfully = false
         console.log(error)
       } finally {
         setTimeout(() => {
-          this.hideAlert = 'hide';
-          this.createdSuccessfully = false;
+          this.hideAlert = 'hide'
+          this.createdSuccessfully = false
         }, 5000)
       }
+    },
+    validateUsername(val) {
+      if (val.length <= 1) {
+        this.error = 'Este campo es requerido'
+        this.valid.username = false
+      } else if (val.length > 20) {
+        this.error = 'El campo no puede tener más de 20 caracteres'
+        this.valid.username = false
+      } else {
+        this.error = ''
+        this.valid.username = true
+      }
+    },
+    validateEmail(isValid) {
+      this.valid.email = isEmail(isValid)
+    },
+    validatePassword(isValid) {
+      this.valid.password = isStrongPassword(isValid)
+    },
+    validateRepeatPassword(val) {
+      this.valid.repeatPassword = this.form.password === val
     }
   },
   computed: {
     validateSubmit() {
-      const emptyFields = Object.values(this.form).some((value) => value === '');
-      const invalidFields = Object.values(this.valid).some((value) => value === false);
+      const emptyFields = Object.values(this.form).some((value) => value === '')
+      const invalidFields = Object.values(this.valid).some((value) => value === false)
 
-      return !emptyFields && !invalidFields;
-    },
+      return !emptyFields && !invalidFields
+    }
   }
 }
 </script>
 
 <template>
   <div class="higherContainer">
-    <img src="./images/KECIRCULENLogo.svg" alt="logo" class="logo" />
+    <img src="../logo/KECIRCULENLogo.svg" alt="logo" class="logo" />
 
     <div class="formContainer">
       <Title :title="'Crear una cuenta nueva'" />
 
-      <InputForm
-        label="Usuario"
-        placeholder="Usuario"
-        :value="form.username"
-        :valid-username="valid.username"
-        @input-value="form.username = $event"
-        @validUsername="valid.username = $event"
-      />
+      <div>
+        <InputForm
+          label="Usuario"
+          placeholder="Usuario"
+          :value="form.username"
+          @inputValue="form.username = $event"
+          @handleUsername="validateUsername"
+        />
+        <Text class="error-message" :text="error" />
+      </div>
 
-      <InputForm
-        label="Email"
-        placeholder="Email"
-        :value="form.email"
-        :valid-email="valid.email"
-        @input-value="form.email = $event"
-        @validEmail="valid.email = $event"
-      />
+      <div>
+        <InputForm
+          label="Email"
+          placeholder="Email"
+          :value="form.email"
+          @inputValue="form.email = $event"
+          @handleEmail="validateEmail"
+        />
+        <Text
+          v-if="!valid.email"
+          class="error-message"
+          :text="'Por favor, ingresa un correo electrónico válido.'"
+        />
+      </div>
 
-      <InputForm
-        label="Password"
-        placeholder="Password"
-        :value="form.password"
-        :valid-password="valid.password"
-        @input-value="form.password = $event"
-        @validPassword="valid.password = $event"
-      />
+      <div>
+        <InputForm
+          label="Password"
+          placeholder="Password"
+          :value="form.password"
+          @inputValue="form.password = $event"
+          @handlePassword="validatePassword"
+        />
+        <Text
+          v-if="!valid.password"
+          class="error-message"
+          :text="'La contraseña debe tener al menos 8 caracteres, 1 carácter especial y 1 número.'"
+        />
+      </div>
 
-      <InputForm
-        label="Repeat Password"
-        placeholder="Repeat Password"
-        :valid-repeated-password="valid.email"
-        :value="form.repeatPassword"
-        :repeat-value="form.password"
-        @input-value="form.repeatPassword = $event"
-        @validRepeatPassword="valid.repeatPassword = $event"
-      />
+      <div>
+        <InputForm
+          label="Repeat Password"
+          placeholder="Repeat Password"
+          :value="form.repeatPassword"
+          :repeatValue="form.password"
+          @inputValue="form.repeatPassword = $event"
+          @handleRepeatPassword="validateRepeatPassword"
+        />
+        <Text
+          v-if="!valid.repeatPassword"
+          class="error-message"
+          :text="'Las contraseñas no coinciden'"
+        />
+      </div>
 
       <ButtonForm v-if="validateSubmit" label="Continuar" :onClick="submit" />
 
-      <ButtonForm v-else label="Continuar" />
+      <ButtonForm v-else label="Continuar" disabled />
 
       <div v-if="this.hideAlert === 'show'">
-        <Message v-if="this.createdSuccessfully" :closable="false" severity="success">
+        <Message v-if="createdSuccessfully" :closable="false" severity="success">
           Se ha creado la cuenta correctamente
         </Message>
 

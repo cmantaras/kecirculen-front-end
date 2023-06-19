@@ -1,16 +1,16 @@
 <script>
 // Styles
-import InputTextForm from 'primevue/inputtext';
-import DropdownForm from 'primevue/dropdown';
-import InputMask from 'primevue/inputmask';
+import InputTextForm from 'primevue/inputtext'
+import DropdownForm from 'primevue/dropdown'
+import InputMask from 'primevue/inputmask'
 
 // Components
-import Text from '../Texts/text.vue';
+import Text from '../Texts/text.vue'
 
-import { toRefs } from 'vue';
-import { isStrongPassword, isEmail } from 'validator';
+import { toRefs } from 'vue'
+import { isStrongPassword, isEmail } from 'validator'
 
-import 'bootstrap';
+import 'bootstrap'
 
 export default {
   components: {
@@ -26,34 +26,29 @@ export default {
     repeatValue: String
   },
   setup(props, { emit }) {
-    const {
-      label,
-      placeholder,
-      value,
-      repeatValue
-    } = toRefs(props);
-  
+    const { label, placeholder, value, repeatValue } = toRefs(props)
+
     const handleInput = (event) => {
-      emit('inputValue', event.target.value);
-    };
+      emit('inputValue', event.target.value)
+    }
 
     const validateUsername = (event) => {
-      emit('handleUsername', event.target.value);
-    };
+      emit('handleUsername', event.target.value)
+    }
 
     const handleEmail = (event) => {
-      emit('handleEmail', event.target.value);
-    };
+      emit('handleEmail', event.target.value)
+    }
 
     const handlePassword = (event) => {
-      emit('handlePassword', event.target.value);
-    };
+      emit('handlePassword', event.target.value)
+    }
 
     const handleRepeatPassword = (event) => {
-      emit('handleRepeatPassword', event.target.value);
-    };
+      emit('handleRepeatPassword', event.target.value)
+    }
 
-    return{
+    return {
       label,
       placeholder,
       value,
@@ -62,7 +57,7 @@ export default {
       validateUsername,
       handleEmail,
       handlePassword,
-      handleRepeatPassword,
+      handleRepeatPassword
     }
   }
 }

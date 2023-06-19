@@ -6,34 +6,34 @@ import Message from 'primevue/message'
 // Components
 import Title from '@/components/Texts/title.vue'
 import Text from '@/components/Texts/text.vue'
-import Button from '@/components/formComponents/button.vue'
+import WhiteButton from '@/components/buttons/whiteButton.vue'
+import YellowButton from '@/components/buttons/yellowButton.vue'
+import Logo from '@/components/logo/logo.vue'
 
 export default {
   components: {
     Title,
     Text,
-    Button
+    YellowButton,
+    WhiteButton,
+    Logo
   }
 }
 </script>
 
 <template>
   <div class="logInHigherContainer">
-    <img src="../logo/KECIRCULENLogo.svg" alt="logo" class="logo" />
+    <Logo />
 
     <div class="logInContainer">
       <Title :title="'¡Te damos la bienvenida a KECIRCULEN!'" class="logInWelcome" />
 
-      <div>
-        <img src="./images/books.png" alt="books" class="loginImage" />
-      </div>
-
       <router-link to="/signin" class="routerContainer">
-        <Button class="button" label="Iniciar sesión" />
+        <YellowButton label="Iniciar sesión" />
       </router-link>
 
       <router-link to="/signup" class="routerContainer">
-        <Button class="button" label="Crear Cuenta" />
+        <WhiteButton class="loginButton" label="Crear Cuenta" />
       </router-link>
     </div>
   </div>
@@ -59,7 +59,7 @@ export default {
   margin-bottom: auto;
   align-self: center;
 }
-.logInWelcome{
+.logInWelcome {
   text-align: center;
 }
 .routerContainer {
@@ -68,5 +68,12 @@ export default {
   justify-content: center;
 
   text-decoration: none;
+}
+.loginButton {
+  border: 1px solid #263238;
+  text-transform: uppercase;
+}
+.loginButton:hover {
+  border: 1px solid #263238;
 }
 </style>

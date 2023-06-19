@@ -4,25 +4,27 @@ import Message from 'primevue/message'
 
 // Components
 import Title from '@/components/Texts/title.vue'
-import Button from '@/components/formComponents/button.vue'
+import Button from '@/components/buttons/disabledButton.vue'
 import LoginInput from '@/components/formComponents/input.vue'
+import Logo from '@/components/logo/logo.vue'
 
 export default {
   components: {
     Title,
     Text,
     Button,
-    LoginInput
+    LoginInput,
+    Logo
   }
 }
 </script>
 
 <template>
   <div class="SignInHigherContainer">
-    <img src="../logo/KECIRCULENLogo.svg" alt="logo" class="logo" />
+    <Logo />
 
     <div class="SignIncontainer">
-      <Title :title="'Iniciar sesión'" class="SignInWelcome"/>
+      <Title :title="'Iniciar sesión'" class="SignInWelcome" />
       <LoginInput label="Email" placeholder="Email" />
       <LoginInput label="Password" placeholder="Password" />
       <Button class="button" label="Crear Cuenta" />
@@ -50,7 +52,7 @@ export default {
   margin-bottom: auto;
   align-self: center;
 }
-.SignInWelcome{
+.SignInWelcome {
   text-align: center;
 }
 .loginImage {

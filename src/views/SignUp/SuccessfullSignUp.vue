@@ -1,6 +1,6 @@
 <script>
-import Text from '@/components/Texts/text.vue';
-import Button from '@/components/formComponents/button.vue';
+import Text from '@/components/Texts/text.vue'
+import Button from '@/components/buttons/disabledButton.vue'
 
 export default {
   components: {

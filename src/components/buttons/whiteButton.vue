@@ -24,10 +24,11 @@ export default {
 </script>
 
 <template>
-  <ButtonForm @click="handleClick()" class="button">{{ label }}</ButtonForm>
+  <ButtonForm @click="handleClick()" class="whiteButton">{{ label }}</ButtonForm>
 </template>
+
 <style>
-.button {
+.whiteButton {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,19 +38,18 @@ export default {
   height: 36px;
   top: 280px;
 
-  background: #d9d9d9;
-  border: 1px solid #d9d9d9;
-  color: #8c8787;
+  background: white;
+  border: 1px solid white;
+  color: #263238;
 
-  font-size: 14px;
   font-weight: 500;
   line-height: 16px;
   letter-spacing: 1.25px;
-  text-transform: uppercase;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-.button:not(.p-disabled):hover {
-  background: #c4c4c4;
-  border: 1px solid #e2e2e2;
-  color: #8c8787;
+.whiteButton:not(.p-disabled):hover {
+  background: white;
+  border: 1px solid #263238;
+  color: #263238;
 }
 </style>

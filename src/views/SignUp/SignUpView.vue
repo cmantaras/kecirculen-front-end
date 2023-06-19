@@ -1,23 +1,25 @@
 <script>
 // Components
-import Form from './SignUpForm.vue';
-import SuccessfulSignUp from './SuccessfullSignUp.vue';
+import Form from './SignUpForm.vue'
+import SuccessfulSignUp from './SuccessfullSignUp.vue'
+import Logo from '@/components/logo/logo.vue'
 
-import { reactive, watch } from 'vue';
-import debounce from 'lodash.debounce';
+import { reactive, watch } from 'vue'
+import debounce from 'lodash.debounce'
 
 export default {
   components: {
     Form,
-    SuccessfulSignUp
+    SuccessfulSignUp,
+    Logo
   },
   setup() {
     const state = reactive({
       succed: false
-    });
+    })
 
     const handleSucced = (val) => {
-      state.succed = val;
+      state.succed = val
     }
 
     return {
@@ -30,7 +32,7 @@ export default {
 
 <template>
   <div class="higherContainer">
-    <img src="../logo/KECIRCULENLogo.svg" alt="logo" class="logo" />
+    <Logo />
 
     <Form v-if="!state.succed" @succed="handleSucced" />
 
@@ -46,13 +48,5 @@ export default {
   width: 100%;
   font-family: Poppins;
   background: #f2ce63;
-}
-.logo {
-  width: 150px;
-  height: 50px;
-  padding: 0;
-  margin: 0 20px 0 0;
-  align-self: flex-end;
-  cursor: pointer;
 }
 </style>

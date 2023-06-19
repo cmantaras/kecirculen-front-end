@@ -6,7 +6,9 @@ import ProgressSpinner from 'primevue/progressspinner'
 
 // Components
 import InputForm from '@/components/formComponents/input.vue'
-import ButtonForm from '@/components/formComponents/button.vue'
+import DisabledButton from '@/components/buttons/disabledButton.vue'
+import YellowButton from '@/components/buttons/yellowButton.vue'
+import ButtonForm from '@/components/buttons/yellowButton.vue'
 import Title from '@/components/Texts/title.vue'
 import Text from '@/components/Texts/text.vue'
 
@@ -22,7 +24,8 @@ export default {
   components: {
     InputForm,
     Title,
-    ButtonForm,
+    DisabledButton,
+    YellowButton,
     Message,
     Text,
     ProgressSpinner
@@ -191,9 +194,9 @@ export default {
       </div>
     </div>
     <div v-else>
-      <ButtonForm v-if="validateSubmit()" label="Crear cuenta" :onClick="submit" />
+      <YellowButton v-if="validateSubmit()" label="Crear cuenta" :onClick="submit" />
 
-      <ButtonForm v-else label="Crear cuenta" disabled />
+      <DisabledButton v-else label="Crear cuenta" disabled />
     </div>
 
     <div v-if="state.failed">

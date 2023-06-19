@@ -25,7 +25,7 @@ export default {
       <Text :text="'¡Te damos la bienvenida! '" />
     </div>
 
-    <router-link to="/login" class="buttonContainer">
+    <router-link to="/" class="buttonContainer">
       <Button label="Ir al inicio" />
     </router-link>
   </div>

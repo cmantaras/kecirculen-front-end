@@ -21,7 +21,7 @@ export default {
       <img src="./images/GrinningFace.png" alt="GrinningFace" class="GrinningFace" />
     </div>
 
-    <div class="welcome">
+    <div class="SuccesfulSignUpwelcome">
       <Text :text="'¡Te damos la bienvenida! '" />
     </div>
 
@@ -69,7 +69,7 @@ export default {
   justify-content: center;
   margin: 10px 0;
 }
-.welcome {
+.SuccesfulSignUpwelcome {
   margin: 20px 0 5px 0;
 }
 .buttonContainer {

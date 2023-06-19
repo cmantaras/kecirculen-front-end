@@ -13,7 +13,7 @@ export default {
   },
   setup() {
     const state = reactive({
-      succed: false
+      succed: true
     });
 
     const handleSucced = (val) => {

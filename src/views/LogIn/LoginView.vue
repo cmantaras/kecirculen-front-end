@@ -18,11 +18,11 @@ export default {
 </script>
 
 <template>
-  <div class="higherContainer">
+  <div class="logInHigherContainer">
     <img src="../logo/KECIRCULENLogo.svg" alt="logo" class="logo" />
 
-    <div class="container">
-      <Title :title="'¡Te damos la bienvenida a KECIRCULEN!'" />
+    <div class="logInContainer">
+      <Title :title="'¡Te damos la bienvenida a KECIRCULEN!'" class="logInWelcome" />
 
       <div>
         <img src="./images/books.png" alt="books" class="loginImage" />
@@ -40,7 +40,7 @@ export default {
 </template>
 
 <style>
-.higherContainer {
+.logInHigherContainer {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -48,7 +48,7 @@ export default {
   font-family: Poppins;
   background: #f2ce63;
 }
-.container {
+.logInContainer {
   display: flex;
   flex-direction: column;
   background: white;
@@ -58,6 +58,8 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
   align-self: center;
+}
+.logInWelcome{
   text-align: center;
 }
 .routerContainer {

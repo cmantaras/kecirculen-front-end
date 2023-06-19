@@ -18,11 +18,11 @@ export default {
 </script>
 
 <template>
-  <div class="higherContainer">
+  <div class="SignInHigherContainer">
     <img src="../logo/KECIRCULENLogo.svg" alt="logo" class="logo" />
 
-    <div class="container">
-      <Title :title="'Iniciar sesión'" />
+    <div class="SignIncontainer">
+      <Title :title="'Iniciar sesión'" class="SignInWelcome"/>
       <LoginInput label="Email" placeholder="Email" />
       <LoginInput label="Password" placeholder="Password" />
       <Button class="button" label="Crear Cuenta" />
@@ -31,7 +31,7 @@ export default {
 </template>
 
 <style>
-.higherContainer {
+.SignInHigherContainer {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -39,7 +39,7 @@ export default {
   font-family: Poppins;
   background: #f2ce63;
 }
-.container {
+.SignIncontainer {
   display: flex;
   flex-direction: column;
   background: white;
@@ -49,6 +49,9 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
   align-self: center;
+}
+.SignInWelcome{
+  text-align: center;
 }
 .loginImage {
   width: 100%;

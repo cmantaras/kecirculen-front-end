@@ -57,10 +57,4 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.routerContainer {
-  display: flex;
-  width: 100%;
-  text-decoration: none;
-  justify-content: center;
-}
 </style>

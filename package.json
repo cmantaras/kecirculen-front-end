@@ -15,6 +15,7 @@
     "@popperjs/core": "^2.11.7",
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
+    "lodash.debounce": "^4.0.8",
     "pinia": "^2.0.36",
     "primevue": "^3.29.2",
     "validator": "^13.9.0",

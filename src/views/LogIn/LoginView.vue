@@ -23,12 +23,15 @@ export default {
 
     <div class="container">
       <Title :title="'¡Te damos la bienvenida a KECIRCULEN!'" />
+
       <div>
         <img src="./images/books.png" alt="books" class="loginImage" />
       </div>
+
       <router-link to="/signin" class="routerContainer">
         <Button class="button" label="Iniciar sesión" />
       </router-link>
+
       <router-link to="/signup" class="routerContainer">
         <Button class="button" label="Crear Cuenta" />
       </router-link>
@@ -55,5 +58,13 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
   align-self: center;
+  text-align: center;
+}
+.routerContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+  text-decoration: none;
 }
 </style>

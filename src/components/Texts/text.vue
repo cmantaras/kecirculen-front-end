@@ -14,9 +14,11 @@ export default {
 
 <style>
 .textStyle {
+  display: flex;
   font-size: 16px;
   font-family: Poppins;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 24px;
+  margin: 0;
 }
 </style>

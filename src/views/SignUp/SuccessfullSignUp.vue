@@ -55,7 +55,6 @@ export default {
 .succedImg {
   width: 100px;
   height: 100px;
-  left: calc(50% - 100px / 2);
   top: 84px;
   margin-bottom: 10px;
 }

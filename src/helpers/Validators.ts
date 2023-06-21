@@ -54,11 +54,11 @@ const VALIDATIONS_MESSAGE = {
     REQUIRED_FIELD :            'El campo es requerido',
     INVALID_NAME :              'El nombre debe contener al menos de 2 carácteres',
     INVALID_EMAIL :             'El email es incorrecto',
-    AT_LEAST_ONE_MAYUS:         'La contraseña debe tener al menos una mayúsucula',
-    AT_LEAST_ONE_MINUS :        'La contraseña debe tener al menos una minúscula',
-    AT_LEAST_ONE_NUMBER :       'La contraseña debe tener al menos un número', 
-    AT_LEAST_ONE_SPECIAL_CHAR : 'La contraseña debe tener al menos un carácter especial', 
-    AT_LEAST_EIGHT_DIGITS :     'La contraseña debe tener al menos 8 dígitos',
+    AT_LEAST_ONE_MAYUS:         '1 mayúsucula',
+    AT_LEAST_ONE_MINUS :        '1 minúscula',
+    AT_LEAST_ONE_NUMBER :       '1 número', 
+    AT_LEAST_ONE_SPECIAL_CHAR : '1 carácter especial', 
+    AT_LEAST_EIGHT_DIGITS :     '8 dígitos',
 }
 
 export const Validators = {

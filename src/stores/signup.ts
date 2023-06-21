@@ -22,7 +22,7 @@ interface SignUpState {
 }
 
 //TODO: add env
-const API_URL = 'http://localhost:3000/api/auth'
+const API_URL = 'https://kecirculen-api.azurewebsites.net/api/auth'
 export const useSignupStore = defineStore('counter', {
     state: () : SignUpState => ({ 
         emailResponse : { emailavailable : true, message : '' },

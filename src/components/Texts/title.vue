@@ -1,14 +1,11 @@
-<script>
-export default {
-  props: {
-    title: String
-  }
-}
+<script setup lang="ts">
+  const props = defineProps(['title'])
+
 </script>
 
 <template>
   <h1 class="titleStyle">
-    {{ title }}
+    {{ props.title }}
   </h1>
 </template>
 

@@ -1,138 +1,129 @@
-<script>
-// Styles
-import InputText from 'primevue/inputtext'
-import Message from 'primevue/message'
-import ProgressSpinner from 'primevue/progressspinner'
-
+<script setup lang="ts">
+// @ts-ignore
+import debounce  from 'lodash.debounce'
 // Components
+import ProgressSpinner from 'primevue/progressspinner'
 import InputForm from '@/components/formComponents/input.vue'
-import DisabledButton from '@/components/buttons/disabledButton.vue'
-import YellowButton from '@/components/buttons/yellowButton.vue'
-import ButtonForm from '@/components/buttons/yellowButton.vue'
 import Title from '@/components/Texts/title.vue'
-import Text from '@/components/Texts/text.vue'
-
-import { watch, reactive } from 'vue'
-import { isStrongPassword, isEmail, isLength } from 'validator'
-import debounce from 'lodash.debounce'
-import { toRefs } from 'vue'
-import axios from 'axios'
+import YellowButton from '@/components/buttons/yellowButton.vue'
+import InputControl from '../../models/InputControlClass'
+import { Validators } from '../../helpers/Validators'
+import { reactive, watch, onBeforeMount } from 'vue'
+import { useSignupStore } from '@/stores/signup'
+import { useToast } from "primevue/usetoast";
 
 import 'bootstrap'
 
-export default {
-  components: {
-    InputForm,
-    Title,
-    DisabledButton,
-    YellowButton,
-    Message,
-    Text,
-    ProgressSpinner
-  },
-  setup(props, { emit }) {
-    const state = reactive({
-      loading: false,
-      createdSuccessfully: false,
-      failed: false
-    })
+    const toast = useToast();
+
+    //store
+    const store = useSignupStore()
+
+    //FORM  
     let form = reactive({
-      username: '',
-      email: '',
-      password: '',
-      repeatPassword: '',
-      roles: ['admin']
-    })
-    let valid = reactive({
-      username: true,
-      email: true,
-      password: true,
-      repeatPassword: true
+      username: new InputControl('', [ Validators.validateUsername, Validators.isRequired ]),
+      email : new InputControl('', [ Validators.validateEmail, Validators.isRequired ]),
+      password: new InputControl('', [ Validators.validatePassword, Validators.isRequired ]),
+      repeatPassword: new InputControl('', [ Validators.isRequired ]),
     })
 
-    let submit = async () => {
-      state.loading = true
-      try {
-        await axios.post('http://localhost:3000/api/signup', form, {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          }
-        })
-        state.loading = false
-        emit('succed', true)
-      } catch (error) {
-        state.loading = false
-        state.failed = true
-        console.log(error)
-      } finally {
-        setTimeout(() => {
-          state.failed = false
-        }, 5000)
+    //ON init
+    onBeforeMount(() => {
+      watchEmail();
+      watchPasswords();
+      watchEmailResponse();
+      watchSignupResponse();
+
+    })
+
+    //Form Methods
+    //TODO: Estos metodos de formulario pueden ser parte de una clase
+    function getFormValues(){
+      const { email, password, username } = form
+      return { 
+        email : email.value,
+        password : password.value,
+        username : username.value
       }
     }
 
-    let validateUsername = (val) => {
-      valid.username = isLength(val, { min: 2, max: 20 })
+    function resetForm(){
+      const { email, password, repeatPassword, username } = form
+      email.value = '';
+      email.errors = [];
+      password.value = '';
+      password.errors = [];
+      username.value = '';
+      username.errors = [];
+      repeatPassword.value = '';
+      repeatPassword.errors = [];
     }
 
-    let validateEmail = (isValid) => {
-      valid.email = isEmail(isValid)
+    function isFormValid() {
+      return Object.values(form).every((input) => input.isValid());
     }
 
-    let validatePassword = (isValid) => {
-      valid.password = isStrongPassword(isValid)
+    function formHasEmptyField() {
+      return Object.values(form).some((input) => input.value === '')
     }
 
-    let validateRepeatPassword = (val) => {
-      valid.repeatPassword = form.password === val
+    function submit() {
+      store.signUp(getFormValues())
     }
 
-    let validateSubmit = () => {
-      const emptyFields = Object.values(form).some((value) => value === '')
-      const invalidFields = Object.values(valid).some((value) => value === false)
-
-      return !emptyFields && !invalidFields
+    //WATCHERS
+    function watchEmailResponse(){
+      watch(()=> store.emailResponse, 
+            () => { 
+              form.email.addError(store.emailResponse.message)
+            });
     }
 
-    watch(
-      form,
-      debounce(() => {
-        console.log('asd')
-      }, 1000)
-    )
-
-    return {
-      form,
-      valid,
-      state,
-      submit,
-      validateUsername,
-      validateEmail,
-      validatePassword,
-      validateRepeatPassword,
-      validateSubmit
+    function watchSignupResponse(){
+      watch(()=> store.signupSucces, 
+            () => { 
+              if(store.signupSucces) {
+                toast.add({ severity : 'success', summary: 'Crear cuenta', detail: 'El usuario fue creado con éxito!', life: 3000 })
+                resetForm()
+              }
+      });
     }
-  }
-}
+
+    function watchEmail(){
+      const { email } = form
+      watch(()=> email.value, debounce(() => {
+        if(email.isValid())
+            store.checkEmailAvailable(email.value)
+      }, 300));
+    }
+
+    function watchPasswords(){
+      const { password, repeatPassword } = form
+      watch(()=> [password.value, repeatPassword.value], () => {
+
+        if( password.value && repeatPassword.value ){
+
+          const [error] = Validators.isSamePassword(password.value, repeatPassword.value)
+          repeatPassword.addError(error)
+        }
+      });
+    }
+ 
 </script>
 
 <template>
+
   <div class="formContainer">
     <Title :title="'Crear una cuenta nueva'" />
 
     <div>
       <InputForm
-        label="Usuario"
-        placeholder="Usuario"
-        :value="form.username"
-        @inputValue="form.username = $event"
-        @handleUsername="validateUsername"
-      />
-      <Text
-        v-if="!valid.username"
-        class="error-message"
-        :text="'El campo no puede tener menos de 2 o más de 20 caracteres'"
+        label="Nombre"
+        placeholder="Nombre"
+        :type="'text'"
+        :valueInput="form.username.value"
+        :errors="form.username.errors"
+        @eventInput="($event : string) => form.username.value = $event"
       />
     </div>
 
@@ -140,49 +131,38 @@ export default {
       <InputForm
         label="Email"
         placeholder="Email"
-        :value="form.email"
-        @inputValue="form.email = $event"
-        @handleEmail="validateEmail"
-      />
-      <Text
-        v-if="!valid.email"
-        class="error-message"
-        :text="'Por favor, ingresa un correo electrónico válido.'"
+        :type="'text'"
+        :errors="form.email.errors"
+        :valueInput="form.email.value"
+        :loading="store.getEmailLoading"
+        @eventInput="($event : string) => form.email.value = $event"
       />
     </div>
 
     <div>
       <InputForm
-        label="Password"
-        placeholder="Password"
-        :value="form.password"
-        @inputValue="form.password = $event"
-        @handlePassword="validatePassword"
-      />
-      <Text
-        v-if="!valid.password"
-        class="error-message"
-        :text="'La contraseña debe tener al menos 8 caracteres, 1 carácter especial y 1 número.'"
+        label="Contraseña"
+        placeholder="Contraseña"
+        :type="'password'"
+        :errors="form.password.errors"
+        :valueInput="form.password.value"
+        @eventInput="($event : string) => form.password.value = $event"
       />
     </div>
 
     <div>
       <InputForm
-        label="Repeat Password"
-        placeholder="Repeat Password"
-        :value="form.repeatPassword"
-        :repeatValue="form.password"
-        @inputValue="form.repeatPassword = $event"
-        @handleRepeatPassword="validateRepeatPassword"
-      />
-      <Text
-        v-if="!valid.repeatPassword"
-        class="error-message"
-        :text="'Las contraseñas no coinciden'"
+        label="Repetir contraseña"
+        placeholder="Repetir contraseña"
+        :type="'password'"
+        :errors="form.repeatPassword.errors"
+        :valueInput="form.repeatPassword.value"
+        @eventInput="($event : string) => form.repeatPassword.value = $event"
       />
     </div>
 
-    <div v-if="state.loading">
+    
+    <div v-if="store.loadingSubmit">
       <div class="card flex justify-content-center" style="border: none">
         <ProgressSpinner
           style="width: 50px; height: 50px"
@@ -193,17 +173,15 @@ export default {
         />
       </div>
     </div>
+
     <div v-else>
-      <YellowButton v-if="validateSubmit()" label="Crear cuenta" :onClick="submit" />
-
-      <DisabledButton v-else label="Crear cuenta" disabled />
+        <YellowButton 
+          label="Crear cuenta" 
+          :disabled="(!isFormValid() || formHasEmptyField())" 
+          @onClick="submit()"
+        />
     </div>
 
-    <div v-if="state.failed">
-      <Message :closable="false" severity="error"
-        >Por favor verifique los datos ingresados.</Message
-      >
-    </div>
   </div>
 </template>
 

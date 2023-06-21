@@ -1,30 +1,18 @@
-<script>
-import ButtonForm from 'primevue/button'
-import Text from '@/components/Texts/text.vue'
-import 'bootstrap'
+<script setup lang="ts">
+  import ButtonForm from 'primevue/button'
+  import 'bootstrap'
 
-export default {
-  props: {
-    label: String
-  },
-  components: {
-    ButtonForm,
-    Text
-  },
-  setup(props, { emit }) {
-    const handleClick = () => {
-      emit('click')
-    }
+  const props = defineProps(['label', 'disabled'])
+  const emit = defineEmits(['onClick'])
 
-    return {
-      handleClick
-    }
-  }
-}
 </script>
 
 <template>
-  <ButtonForm @click="handleClick()" class="yellowButton">{{ label }}</ButtonForm>
+    <ButtonForm 
+        :disabled="props.disabled" 
+        @click="emit('onClick')" 
+        class="yellowButton"
+      >{{ props.label }}</ButtonForm>
 </template>
 
 <style>

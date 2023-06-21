@@ -44,6 +44,7 @@ export default {
 
   font-weight: 500;
   line-height: 16px;
+  font-size: 14px;
   letter-spacing: 1.25px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }

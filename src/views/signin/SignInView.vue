@@ -3,9 +3,9 @@
 import Message from 'primevue/message'
 
 // Components
-import Title from '@/components/Texts/title.vue'
+import Title from '@/components/labels/title.vue'
 import Button from '@/components/buttons/disabledButton.vue'
-import LoginInput from '@/components/formComponents/input.vue'
+import LoginInput from '@/components/form/input.vue'
 import Logo from '@/components/logo/logo.vue'
 
 export default {

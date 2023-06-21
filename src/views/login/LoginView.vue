@@ -4,8 +4,8 @@ import InputText from 'primevue/inputtext'
 import Message from 'primevue/message'
 
 // Components
-import Title from '@/components/Texts/title.vue'
-import Text from '@/components/Texts/text.vue'
+import Title from '@/components/labels/title.vue'
+import Text from '@/components/labels/text.vue'
 import WhiteButton from '@/components/buttons/whiteButton.vue'
 import YellowButton from '@/components/buttons/yellowButton.vue'
 import Logo from '@/components/logo/logo.vue'

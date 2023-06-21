@@ -1,5 +1,5 @@
 <script>
-import Text from '../Texts/text.vue'
+import Text from '../labels/text.vue'
 import Logo from '../logo/logo.vue'
 import Button from '../buttons/whiteButton.vue'
 

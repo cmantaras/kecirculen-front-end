@@ -1,6 +1,6 @@
 <script>
 import ButtonForm from 'primevue/button'
-import Text from '@/components/Texts/text.vue'
+import Text from '@/components/labels/text.vue'
 import 'bootstrap'
 
 export default {

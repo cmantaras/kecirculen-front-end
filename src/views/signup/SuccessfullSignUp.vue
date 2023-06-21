@@ -1,5 +1,5 @@
 <script>
-import Text from '@/components/Texts/text.vue'
+import Text from '@/components/labels/text.vue'
 import Button from '@/components/buttons/disabledButton.vue'
 
 export default {

@@ -3,8 +3,8 @@
 import debounce  from 'lodash.debounce'
 // Components
 import ProgressSpinner from 'primevue/progressspinner'
-import InputForm from '@/components/formComponents/input.vue'
-import Title from '@/components/Texts/title.vue'
+import InputForm from '@/components/form/input.vue'
+import Title from '@/components/labels/title.vue'
 import YellowButton from '@/components/buttons/yellowButton.vue'
 import InputControl from '../../models/InputControlClass'
 import { Validators } from '../../helpers/Validators'

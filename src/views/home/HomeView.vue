@@ -1,8 +1,8 @@
 <script>
 import Navbar from '@/components/navbar/navbar.vue'
-import Text from '@/components/texts/text.vue'
-import Title from '@/components/texts/heroTitle.vue'
-import SubTitle from '@/components/texts/heroSubtitle.vue'
+import Text from '@/components/labels/text.vue'
+import Title from '@/components/labels/heroTitle.vue'
+import SubTitle from '@/components/labels/heroSubtitle.vue'
 import Button from '@/components/buttons/yellowButton.vue'
 
 export default {

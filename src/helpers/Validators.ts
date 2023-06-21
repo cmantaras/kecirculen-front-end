@@ -1,4 +1,5 @@
-import { isLength, isEmail  } from 'validator'
+import validator  from 'validator'
+
 //TODO: implementar validaciones de isLength y isEmail con regex
 
 let isRequired = (value : string) => {
@@ -10,11 +11,11 @@ let isSamePassword = (password : string, repeatPassword : string) => {
 }
 
 let validateEmail = (value : string) => {
-    return !isEmail(value) ? [VALIDATIONS_MESSAGE.INVALID_EMAIL] : empty
+    return !validator.isEmail(value) ? [VALIDATIONS_MESSAGE.INVALID_EMAIL] : empty
 }
 
 let validateUsername  = (value : string) => {
-    return !isLength(value, { min: 2, max: 20 }) ? [VALIDATIONS_MESSAGE.INVALID_NAME] : empty
+    return !validator.isLength(value, { min: 2, max: 20 }) ? [VALIDATIONS_MESSAGE.INVALID_NAME] : empty
 }
 
 const empty = ['']

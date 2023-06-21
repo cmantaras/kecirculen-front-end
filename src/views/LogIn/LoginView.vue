@@ -1,4 +1,4 @@
-<script>
+<script >
 // Styles
 import InputText from 'primevue/inputtext'
 import Message from 'primevue/message'
